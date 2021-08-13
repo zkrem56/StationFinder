@@ -15,11 +15,5 @@ public class StationFinderApplication{
 		SpringApplication.run(StationFinderApplication.class, args);
 	}
 	
-	
-	public void run(String...args) throws Exception{
-		
-	}
-	
-	
 
 }
