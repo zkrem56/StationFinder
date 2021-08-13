@@ -1,4 +1,4 @@
-<html>
+<html xmlns:th="https://thymeleaf.org">
 	<head>
 		<link rel="stylesheet" href="style.css">
 	</head>
@@ -7,11 +7,12 @@
 		<h1>Welcome</h1>
 		<nav>
 			<ul>
-				<li>Home</li>
+				<li><a href="index">Home</a></li>
 				<li>About Us</li>
 				<li>Contact Us</li>
 				<li><a href="register">Register</a></li>
-				<li><a href="login">Sign In</a></li>
+				<li th:text="${user.username}"></li>
+				<li><a href="index">Logout</a></li>
 			</ul>
 		</nav>
 		

@@ -4,6 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
+
+import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,11 +15,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class UserController {
 	
-	public String uname, pass, n;
-	public int i;
+	private String uname, pass, n;
+	private int maxRows = 1;
 	
 	@Autowired
-	private JdbcTemplate template;
+	private JdbcTemplate template1;
+	
+	@Autowired
+	private JdbcTemplate template2;
 	
 	private ModelAndView modelAndView;
 	
@@ -37,28 +44,51 @@ public class UserController {
 	
 	//Logining Authentication
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-	public ModelAndView save(@ModelAttribute User user) {
-		if(template.queryForObject("select Username from Users where Username = " + user.getUsername(), String.class) != null && template.queryForObject("select Password from Users where Password = " + user.getPassword(), String.class) != null) {
-			modelAndView.setViewName("loginUser");
-		}
-		else {
-			modelAndView.setViewName("loginUser");
-			modelAndView.addObject("user", user);
+	public String save(@ModelAttribute User user) {
+		
+		boolean pagec = false;
+		
+		for(int i = 1; i < maxRows+1; i++ )
+		{
+			try {
+				uname = template1.queryForObject("select username from Users where ID = 1", String.class);
+				pass = template1.queryForObject("select password from Users where ID = 1", String.class);
+			}
+			catch (Exception e) {
+				//modelAndView.addObject("user", user);
+				System.out.println(e.toString());
+				break;
+			}
+			
+			if(uname.equals(user.getUsername()) && pass.equals(user.getPassword())) {
+				pagec = true;
+				break;
+			}
 		}
 		
-		return modelAndView;
+		
+		//return modelAndView;
+		if(pagec == true)
+			return "loginUser";
+		else
+			return "login";
 		
 	}
 	
-	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-	public String add(@ModelAttribute User user) {
+	@RequestMapping(value = "/registeredUser", method = RequestMethod.POST)
+	public ModelAndView add(@ModelAttribute User user) {
 		System.out.println(user.getName());
 		System.out.println(user.getPassword());
 		System.out.println(user.getUsername());
 		
-		template.update("insert into Users(Name, Username, Password) values(?, ?, ?)", user.getName(), user.getUsername(), user.getPassword());
+		template1.update("insert into Users(Name, Username, Password) values(?, ?, ?)", user.getName(), user.getUsername(), user.getPassword());
 		
-		return "index";
+		maxRows++;
+		
+		modelAndView.setViewName("registeredUser");
+		modelAndView.addObject("user", user);
+		
+		return modelAndView;
 	}
 	
 }
