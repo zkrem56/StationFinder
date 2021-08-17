@@ -1,4 +1,4 @@
-<html>
+<html xmlns:th="https://thymeleaf.org">
 	<head>
 		<link rel="stylesheet" href="style.css">
 	</head>
@@ -8,26 +8,31 @@
 		<nav>
 			<ul>
 				<li>Home</li>
-				<li>About Us</li>
-				<li>Contact Us</li>
+				<li><a href="aboutUs">About Us</a></li>
+				<li><a href="contact">Contact Us</a></li>
 				<li><a href="register">Register</a></li>
 				<li><a href="login">Sign In</a></li>
 			</ul>
 		</nav>
 		
-		<form action="saveUser" method="post">
+		<form action="searchResult" method="post">
 			<table>
 				<tr>
-					<td><label for="name">Name </label></td>
+					<td><label for="name">Name: </label></td>
 					<td><input type="text" id="name" name="name"></td>
 				</tr>
 				<tr>
-					<td><label for="username">Username </label></td>
-					<td><input type="text" id="username" name="username"></td>
+					<td><label for="addr">Library Address: </label></td>
+					<td><input type="text" id="addr" name="addr"></td>
 				</tr>
 				<tr>
-					<td><label for="password">Password </label></td>
-					<td><input type="text" id="password" name="password"></td>
+					<td><label for="city">Library City: </label></td>
+					<td><input type="text" id="city" name="city"></td>
+				</tr>
+				
+				<tr>
+					<td><label for="county">Library Country: </label></td>
+					<td><input type="text" id="county" name="county"></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -35,9 +40,5 @@
 				</tr>
 			</table>
 		</form>
-		
-		<script>
-			
-		</script>
 	</body>
 </html>
