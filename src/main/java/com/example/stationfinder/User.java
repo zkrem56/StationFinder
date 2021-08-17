@@ -4,6 +4,7 @@ public class User {
 
 	private String name;
 	private String username, password;
+	private String errmsg = "Incorrect Username/Password";
 	
 	public User(String name, String username, String password) {
 		this.name = name;
