@@ -15,7 +15,7 @@
 			</ul>
 		</nav>
 		
-		<form action="searchResult" method="post">
+		<form action="#" th:action="@{/searchResult}" th:object="$lib" method="post">
 			<table>
 				<tr>
 					<td><label for="name">Name: </label></td>
@@ -40,6 +40,6 @@
 				</tr>
 			</table>
 		</form>
-		<p th:text="${libdata.name}"></p>
+		<p th:text="${libdata.libname}"></p>
 	</body>
 </html>

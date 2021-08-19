@@ -1,0 +1,34 @@
+<html xmlns:th="https://thymeleaf.org">
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	
+	<body>
+		<h1>Library Search</h1>
+		<form action="#" th:action="@{result}" th:object="${libdata}" method="post">
+			<table>
+				<tr>
+					<td><label>Name: </label></td>
+					<td><input type="text" th:field="*{libname}"></td>
+				</tr>
+				<tr>
+					<td><label>Library Address: </label></td>
+					<td><input type="text" th:field="*{addr}"></td>
+				</tr>
+				<tr>
+					<td><label>Library City: </label></td>
+					<td><input type="text" th:field="*{city}"></td>
+				</tr>
+				
+				<tr>
+					<td><label>Library Country: </label></td>
+					<td><input type="text" th:field="*{county}"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><button type="submit">Search</button></td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>

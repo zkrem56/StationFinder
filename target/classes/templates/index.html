@@ -15,30 +15,8 @@
 			</ul>
 		</nav>
 		
-		<form action="searchResult" method="post">
-			<table>
-				<tr>
-					<td><label for="name">Name: </label></td>
-					<td><input type="text" id="name" name="name"></td>
-				</tr>
-				<tr>
-					<td><label for="addr">Library Address: </label></td>
-					<td><input type="text" id="addr" name="addr"></td>
-				</tr>
-				<tr>
-					<td><label for="city">Library City: </label></td>
-					<td><input type="text" id="city" name="city"></td>
-				</tr>
-				
-				<tr>
-					<td><label for="county">Library Country: </label></td>
-					<td><input type="text" id="county" name="county"></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><input type="submit"></td>
-				</tr>
-			</table>
+		<form action="#" th:action="@{search_form}" method="post">
+		<button type="submit">Lets Search</button>
 		</form>
 	</body>
 </html>
