@@ -4,18 +4,18 @@ import java.util.List;
 
 public class Library {
 
-	private String name, addr, city, website, county;
+	private String libname, addr, city, website, county;
 	private int id;
 	
 	public Library() {}
 	
-	public Library(String name) {
-		this.name = name;
+	public Library(String libname) {
+		this.libname = libname;
 	}
 	
-	public Library(int id, String name, String addr, String city, String website, String county) {
+	public Library(int id, String libname, String addr, String city, String website, String county) {
 		this.id = id;
-		this.name = name;
+		this.libname = libname;
 		this.addr = addr;
 		this.city = city;
 		this.website = website;
@@ -30,12 +30,12 @@ public class Library {
 		this.id = id;
 	}
 	
-	public String getName() {
-		return name;
+	public String getLibName() {
+		return libname;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setLibName(String libname) {
+		this.libname = libname;
 	}
 	
 	public String getAddr() {
@@ -63,6 +63,6 @@ public class Library {
 	}
 	
 	public String toString() {
-		return "" + this.id + " " + this.name + " " + this.addr + " " + this.city + " " + this.website + " " + this.county + "\n";
+		return "" + this.id + " " + this.libname + " " + this.addr + " " + this.city + " " + this.website + " " + this.county + "\n";
 	}
 }

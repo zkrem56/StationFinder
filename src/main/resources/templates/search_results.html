@@ -1,0 +1,29 @@
+<html xmlns:th="https://thymeleaf.org">
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	
+	<body>
+		<h1>Library Search Results</h1>
+		<table>
+			<thread>
+				<tr>
+					<td>ID</td>
+					<td>Name</td>
+					<td>Address</td>
+					<td>City</td>
+					<td>County</td>
+					<td>Website</td>
+				</tr>
+			</thread>
+			<tr th:each="temp:${library}">
+				<td th:text="${temp.id">Id</td>
+				<td th:text="${temp.libname}">Name</td>
+				<td th:text="${temp.addr}">Address</td>
+				<td th:text="${temp.city}">City</td>
+				<td th:text="${temp.county">County</td>
+				<td th:text="${temp.website}">Website</td>
+			</tr>
+		</table>
+	</body>
+</html>

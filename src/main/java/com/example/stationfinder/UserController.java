@@ -2,7 +2,9 @@ package com.example.stationfinder;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -18,6 +20,8 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.stationdata.Library;
+import com.example.stationdata.LibraryService;
+import com.example.stationdata.LibService;
 
 @Controller
 public class UserController {
@@ -28,7 +32,12 @@ public class UserController {
 	private int maxRows = 1;
 	private int maxlibs = 17;
 	
-	private ArrayList<Library> lib = new ArrayList<Library>();
+	//private ArrayList<Library> lib = new ArrayList<Library>();
+	/*@Autowired
+	private UserService userService;*/
+	
+	@Autowired
+	private LibService libService;
 	
 	@Autowired
 	private JdbcTemplate template1;
@@ -39,14 +48,75 @@ public class UserController {
 	private ModelAndView modelAndView;
 	
 	//Home Page
-	@RequestMapping("/index")
-	public String index() {
-		return "index";
+	
+	@GetMapping("/result") 
+	public String showHome(Model model) { 
+		Library libdata =  new Library(); 
+		model.addAttribute("libdata", libdata);
+	  
+		return "search_form"; 
+	 }
+	
+	@PostMapping("/result")
+	public String submitSearchForm(@ModelAttribute ("libdata") Library libdata, Model model) {
+		List<Library> list = libService.getAllTheLibraries();
+		List<Library> temp = new ArrayList<>();
+		
+		for(int i = 0; i < list.size(); i++) {
+			try {
+				if(libdata.getLibName().equals(list.get(i).getLibName()))
+					temp.add(libService.getLibrary(i));
+			}
+			catch (Exception e) {
+				
+			}
+			
+			try {
+				if(libdata.getAddr().equals(list.get(i).getAddr()))
+					temp.add(libService.getLibrary(i));
+			}
+			catch (Exception e) {
+				
+			}
+			
+			try {
+				if(libdata.getCounty().equals(list.get(i).getAddr()))
+					temp.add(libService.getLibrary(i));
+			}
+			catch (Exception e) {
+				
+			}
+		}
+		
+		model.addAttribute("temp", temp);
+		
+		return "search_reult";
 	}
 	
-	@RequestMapping("/login")
-	public String login() {
-		return "login";
+	@GetMapping("/login")
+	public String showLogForm(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);
+		
+		return "login_form";
+	}
+	
+	@PostMapping("/login")
+	public String submitLogForm(@ModelAttribute ("user") User user) {
+		for(int i = 1; true; i++) {
+			try {
+				uname = template1.queryForObject("select username from Users where ID = " + i, String.class);
+				pass = template1.queryForObject("select password from Users where ID = " + i, String.class);
+			}
+			catch (Exception e) {
+				return "login_form";
+			}
+			
+			if(uname.equals(user.getUsername()) && pass.equals(user.getPassword()))
+				return "loginUser";
+			else
+				return "login_form";
+		}
 	}
 	
 	@RequestMapping("/aboutUs")
@@ -59,14 +129,23 @@ public class UserController {
 		return "contact";
 	}
 	
-	@RequestMapping("/register")
-	public String register() {
-		return "register";
+	@GetMapping("/register")
+	public String showForm(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);
+		
+		return "register_form";
+	}
+	
+	@PostMapping("/register")
+	public String submitRegForm(@ModelAttribute ("user") User user) {
+		//userService.updateUser(user);
+		return "registeredUser";
 	}
 	
 	//Logining Authentication
-	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-	public String save(@ModelAttribute User user) {
+	/*@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String save(@ModelAttribute ("user") User user) {
 		
 		for(int i = 1; true; i++)
 		{
@@ -85,14 +164,14 @@ public class UserController {
 		
 		
 		//return modelAndView;
-		/*if(pagec == true)
+		if(pagec == true)
 			return "loginUser";
 		else
-			return "login";*/
+			return "login";
 		
-	}
+	}*/
 	
-	@RequestMapping(value = "/registeredUser", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/registeredUser", method = RequestMethod.POST)
 	public String add(@ModelAttribute User user) {
 		System.out.println(user.getName());
 		System.out.println(user.getPassword());
@@ -105,12 +184,12 @@ public class UserController {
 		
 		
 		return "registeredUser";
-	}
+	}*/
 	
 	
 	//Library Search
-	@RequestMapping(value = "/searchResult", method = RequestMethod.POST)
-	public String search(@ModelAttribute Library libdata) {
+	/*@RequestMapping(value = "/searchResult", method = RequestMethod.POST)
+	public String search(@ModelAttribute("libdata") Library libdata) {
 		ModelAndView model = new ModelAndView();
 		
 		if(lib.isEmpty()) {
@@ -148,11 +227,11 @@ public class UserController {
 			}
 		}
 		
-		System.out.println(libdata.getName());
+		System.out.println(libdata.getLibName());
 		
 		model.addObject("libdata", libdata);
 		
 		return "searchResult";
-	}
+	}*/
 	
 }
