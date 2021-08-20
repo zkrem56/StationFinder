@@ -5,24 +5,24 @@
 	
 	<body>
 		<h1>Library Search</h1>
-		<form action="#" th:action="@{result}" th:object="${libdata}" method="post">
+		<form action="#" th:action="@{/result}" th:object="${libdata}" method="post">
 			<table>
 				<tr>
-					<td><label>Name: </label></td>
-					<td><input type="text" th:field="*{libname}"></td>
+					<td><label for="libname">Name: </label></td>
+					<td><input id="libname" name="libname"></td>
 				</tr>
 				<tr>
-					<td><label>Library Address: </label></td>
-					<td><input type="text" th:field="*{addr}"></td>
+					<td><label for="addr">Library Address: </label></td>
+					<td><input type="text" id="addr" name="addr"></td>
 				</tr>
 				<tr>
-					<td><label>Library City: </label></td>
-					<td><input type="text" th:field="*{city}"></td>
+					<td><label for="city">Library City: </label></td>
+					<td><input type="text" id="city" name="city"></td>
 				</tr>
 				
 				<tr>
-					<td><label>Library Country: </label></td>
-					<td><input type="text" th:field="*{county}"></td>
+					<td><label for="county">Library Country: </label></td>
+					<td><input type="text" id="county" name="county"></td>
 				</tr>
 				<tr>
 					<td></td>
