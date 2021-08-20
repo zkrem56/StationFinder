@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 	
+	
 	@Autowired
 	private JdbcTemplate template;
 	
 	private List<User> list = new ArrayList<>();
-	public UserService() {
+	public UserService(JdbcTemplate template) {
 		System.out.println("Service Layer is created");
+		this.template = template;
 		
 		for(int i = 1; true; i++) {
 			try {
@@ -25,6 +27,8 @@ public class UserService {
 						template.queryForObject("select password from Users where ID = " + i, String.class)));
 			}
 			catch (Exception e) {
+				System.out.println("Did not Work");
+				System.out.println(e.toString());
 				break;
 			}
 		}

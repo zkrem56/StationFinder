@@ -12,6 +12,12 @@ public class Library {
 	public Library(String libname) {
 		this.libname = libname;
 	}
+	public Library(String libname, String addr, String city, String county) {
+		this.libname = libname;
+		this.addr = addr;
+		this.city = city;
+		this.county = county;
+	}
 	
 	public Library(int id, String libname, String addr, String city, String website, String county) {
 		this.id = id;
@@ -60,6 +66,14 @@ public class Library {
 	
 	public void setCounty(String county) {
 		this.county = county;
+	}
+	
+	public String getCity() {
+		return city;
+	}
+	
+	public void setCity(String city) {
+		this.city = city;
 	}
 	
 	public String toString() {

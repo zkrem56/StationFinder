@@ -6,22 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowCallbackHandler;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.example.stationdata.Library;
-import com.example.stationdata.LibraryService;
-import com.example.stationdata.LibService;
 
 @Controller
 public class UserController {
@@ -33,21 +25,22 @@ public class UserController {
 	private int maxlibs = 17;
 	
 	//private ArrayList<Library> lib = new ArrayList<Library>();
-	/*@Autowired
-	private UserService userService;*/
-	
-	@Autowired
-	private LibService libService;
 	
 	@Autowired
 	private JdbcTemplate template1;
 	
 	@Autowired
-	private JdbcTemplate template2;
+	private UserService userService;
 	
-	private ModelAndView modelAndView;
+	@Autowired
+	private LibService libService;
 	
 	//Home Page
+	
+	@RequestMapping("/index")
+	public String index() {
+		return "index";
+	}
 	
 	@GetMapping("/result") 
 	public String showHome(Model model) { 
@@ -57,40 +50,35 @@ public class UserController {
 		return "search_form"; 
 	 }
 	
+	//Library Results
 	@PostMapping("/result")
 	public String submitSearchForm(@ModelAttribute ("libdata") Library libdata, Model model) {
 		List<Library> list = libService.getAllTheLibraries();
 		List<Library> temp = new ArrayList<>();
 		
 		for(int i = 0; i < list.size(); i++) {
-			try {
-				if(libdata.getLibName().equals(list.get(i).getLibName()))
-					temp.add(libService.getLibrary(i));
+			if(libdata.getLibName() != null && libdata.getLibName().equals(list.get(i).getLibName())) {
+				temp.add(libService.getLibrary(i+1));
+				break;
 			}
-			catch (Exception e) {
-				
+			else if(libdata.getAddr() != null && libdata.getAddr().equals(list.get(i).getAddr())) {
+				temp.add(libService.getLibrary(i+1));
+				break;
 			}
-			
-			try {
-				if(libdata.getAddr().equals(list.get(i).getAddr()))
-					temp.add(libService.getLibrary(i));
+			else if(libdata.getCity() != null && libdata.getCity().equals(list.get(i).getCity())) {
+				temp.add(libService.getLibrary(i+1));
 			}
-			catch (Exception e) {
-				
-			}
-			
-			try {
-				if(libdata.getCounty().equals(list.get(i).getAddr()))
-					temp.add(libService.getLibrary(i));
-			}
-			catch (Exception e) {
-				
-			}
+			else if(libdata.getCounty() != null && libdata.getCounty().equals(list.get(i).getCounty()))
+				temp.add(libService.getLibrary(i+1));
+		}
+		
+		for(int i = 0; i < temp.size(); i++) {
+			System.out.println(temp.get(i).getLibName());
 		}
 		
 		model.addAttribute("temp", temp);
 		
-		return "search_reult";
+		return "search_results";
 	}
 	
 	@GetMapping("/login")
@@ -101,9 +89,11 @@ public class UserController {
 		return "login_form";
 	}
 	
+	//Login Authentication
 	@PostMapping("/login")
-	public String submitLogForm(@ModelAttribute ("user") User user) {
-		for(int i = 1; true; i++) {
+	public String submitLogForm(@ModelAttribute ("user") User user) {		
+		for(int i = 0; true; i++) {
+			
 			try {
 				uname = template1.queryForObject("select username from Users where ID = " + i, String.class);
 				pass = template1.queryForObject("select password from Users where ID = " + i, String.class);
@@ -137,101 +127,12 @@ public class UserController {
 		return "register_form";
 	}
 	
+	
+	//Adds a new User
 	@PostMapping("/register")
 	public String submitRegForm(@ModelAttribute ("user") User user) {
-		//userService.updateUser(user);
+		userService.updateUser(user);
 		return "registeredUser";
 	}
-	
-	//Logining Authentication
-	/*@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String save(@ModelAttribute ("user") User user) {
-		
-		for(int i = 1; true; i++)
-		{
-			try {
-				uname = template1.queryForObject("select username from Users where ID = " + i, String.class);
-				pass = template1.queryForObject("select password from Users where ID = " + i, String.class);
-			}
-			catch (Exception e) {
-				return "login";
-			}
-			
-			if(uname.equals(user.getUsername()) && pass.equals(user.getPassword())) {
-				return "loginUser";
-			}
-		}
-		
-		
-		//return modelAndView;
-		if(pagec == true)
-			return "loginUser";
-		else
-			return "login";
-		
-	}*/
-	
-	/*@RequestMapping(value = "/registeredUser", method = RequestMethod.POST)
-	public String add(@ModelAttribute User user) {
-		System.out.println(user.getName());
-		System.out.println(user.getPassword());
-		System.out.println(user.getUsername());
-		
-		template1.update("insert into Users(person_name, username, password) values(?, ?, ?)", user.getName(), user.getUsername(), user.getPassword());
-		
-		maxRows++;
-		
-		
-		
-		return "registeredUser";
-	}*/
-	
-	
-	//Library Search
-	/*@RequestMapping(value = "/searchResult", method = RequestMethod.POST)
-	public String search(@ModelAttribute("libdata") Library libdata) {
-		ModelAndView model = new ModelAndView();
-		
-		if(lib.isEmpty()) {
-			for(int i = 0; true; i++) {
-				if(lib.isEmpty()) {
-					try {
-						libName = template2.queryForObject("select lib_name from Libraries where ID = " + i, String.class);
-						libAddr = template2.queryForObject("select lib_address from Libraries where ID = " + i, String.class);
-						libCity = template2.queryForObject("select lib_city from Libraries where ID = " + i, String.class);
-						libWeb = template2.queryForObject("select lib_web from Libraries where ID = " + i, String.class);
-						libCounty = template2.queryForObject("select lib_county from Libraries where ID = " + i,  String.class);
-						libId = template2.queryForObject("select ID from Libraries where ID = " + i, Integer.class);
-					}
-					catch(Exception e) {
-						break;
-					}
-					
-					lib.add(new Library(libId, libName, libAddr, libCity, libWeb, libCounty));
-				}
-				else {
-					try {
-						libName = template2.queryForObject("select lib_name from Libraries where ID = " + i, String.class);
-						libAddr = template2.queryForObject("select lib_address from Libraries where ID = " + i, String.class);
-						libCity = template2.queryForObject("select lib_city from Libraries where ID = " + i, String.class);
-						libWeb = template2.queryForObject("select lib_web from Libraries where ID = " + i, String.class);
-						libCounty = template2.queryForObject("select lib_county from Libraries where ID = " + i,  String.class);
-						libId = template2.queryForObject("select ID from Libraries where ID = " + i, Integer.class);
-					}
-					catch(Exception e) {
-						break;
-					}
-					
-					lib.add(new Library(libId, libName, libAddr, libCity, libWeb, libCounty));
-				}
-			}
-		}
-		
-		System.out.println(libdata.getLibName());
-		
-		model.addObject("libdata", libdata);
-		
-		return "searchResult";
-	}*/
 	
 }
