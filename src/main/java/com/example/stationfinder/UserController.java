@@ -92,21 +92,15 @@ public class UserController {
 	//Login Authentication
 	@PostMapping("/login")
 	public String submitLogForm(@ModelAttribute ("user") User user) {		
-		for(int i = 0; true; i++) {
+		List<User> users = userService.getAllTheUsers();
+		
+		for(int i = 0; i < users.size(); i++) {
 			
-			try {
-				uname = template1.queryForObject("select username from Users where ID = " + i, String.class);
-				pass = template1.queryForObject("select password from Users where ID = " + i, String.class);
-			}
-			catch (Exception e) {
-				return "login_form";
-			}
-			
-			if(uname.equals(user.getUsername()) && pass.equals(user.getPassword()))
+			if(user.getUsername().equals(users.get(i).getUsername()) && user.getPassword().equals(users.get(i).getPassword()))
 				return "loginUser";
-			else
-				return "login_form";
 		}
+		
+		return "login_form";
 	}
 	
 	@RequestMapping("/aboutUs")
