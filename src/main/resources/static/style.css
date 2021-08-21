@@ -1,5 +1,5 @@
 a {
-	color: black;
+	color: #EBF2FA;
 	text-decoration: none;
 }
 
@@ -10,6 +10,10 @@ ul {
 body {
 	text-align: center;
 	font-size: 20px;
+	margin: 0px;
+	display: inline;
+	background-color: #E59F71;
+	color: #EBF2FA;
 }
 
 form {
@@ -20,17 +24,43 @@ label {
 	font-size: 20px;
 }
 
-li {
-	padding: 10px;
-	color: black;
+nav ul li {
+	background-size: fill;
+	display: inline;
+	text-align: center;
+	padding: 5px;
+	float: left;
+	position: center;
+	color: #EBF2FA;
 }
 
 nav {
-	background-color: white;
-	color:black;
+	background-color: #064789;
+	padding-top: 5px;
+	padding-bottom: 15px;
+	margin-bottom: 5px;
+	display: flex;
+	justify-content: center;
 }
 
 a:hover {
-	background: black;
 	color: white;
+}
+
+li:hover {
+	background: #427AA1;
+}
+
+button {
+	background-color: #BA5A31;
+	border-bottom-left-radius: 1em 10px;
+	border-bottom-right-radius: 1em 10px;
+	border-top-left-radius: 1em 10px;
+	border-top-right-radius: 1em 10px;
+	border-style: none;
+	color: #EBF2FA;
+}
+
+h1{
+	color: #EBF2FA;
 }
