@@ -1,6 +1,7 @@
 <html xmlns:th="https://thymeleaf.org">
 	<head>
 		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="tableresults.css">
 	</head>
 	
 	<body>
@@ -16,8 +17,63 @@
 				</ul>
 			</nav>
 		</div>
-		<form action="#" th:action="@{/result}">
-			<button type="submit">Lets Search</button>
+		
+		<p>
+			This web application allows you to search libraries that are in the state of Missouri.
+		</p>
+		
+		<form action="show()" th:action="@{/result}" th:object="${libdata}" method="post">
+			<table>
+				<tr>
+					<td><label for="libname">Name: </label></td>
+					<td><input id="libname" name="libname"></td>
+				</tr>
+				<tr>
+					<td><label for="addr">Library Address: </label></td>
+					<td><input type="text" id="addr" name="addr"></td>
+				</tr>
+				<tr>
+					<td><label for="city">Library City: </label></td>
+					<td><input type="text" id="city" name="city"></td>
+				</tr>
+				
+				<tr>
+					<td><label for="county">Library Country: </label></td>
+					<td><input type="text" id="county" name="county"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><button type="submit">Search</button></td>
+				</tr>
+			</table>
 		</form>
+		
+		<table class="libresults">
+			<thread>
+				<tr>
+					<td>ID</td>
+					<td>Name</td>
+					<td>Address</td>
+					<td>City</td>
+					<td>County</td>
+					<td>Website</td>
+				</tr>
+			</thread>
+			<tr th:each="lib : ${temp}">
+				<td th:text="${lib.id}">Id</td>
+				<td th:text="${lib.getLibName()}">Name</td>
+				<td th:text="${lib.addr}">Address</td>
+				<td th:text="${lib.city}">City</td>
+				<td th:text="${lib.county}">County</td>
+				<td th:text="${lib.getWeb()}">Website</td>
+			</tr>
+		</table>
+		<script>
+			function show(){
+				const element = document.getElementById(libresults);
+				element.display = block;
+			}
+		</script>
+		
 	</body>
 </html>
