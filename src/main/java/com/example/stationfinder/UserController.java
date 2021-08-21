@@ -42,13 +42,13 @@ public class UserController {
 		return "index";
 	}
 	
-	@GetMapping("/result") 
+	/*@GetMapping("/result") 
 	public String showHome(Model model) { 
 		Library libdata =  new Library(); 
 		model.addAttribute("libdata", libdata);
 	  
 		return "search_form"; 
-	 }
+	 }*/
 	
 	//Library Results
 	@PostMapping("/result")
@@ -78,7 +78,7 @@ public class UserController {
 		
 		model.addAttribute("temp", temp);
 		
-		return "search_results";
+		return "index";
 	}
 	
 	@GetMapping("/login")
