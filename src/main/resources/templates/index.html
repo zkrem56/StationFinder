@@ -4,7 +4,7 @@
 		<link rel="stylesheet" href="tableresults.css">
 	</head>
 	
-	<body>
+	<body onload="hide()">
 		<div id="phead">
 			<h1>Welcome</h1>
 			<nav>
@@ -48,7 +48,7 @@
 			</table>
 		</form>
 		
-		<table class="libresults">
+		<table id="libres" class="libresults" hidden>
 			<thread>
 				<tr>
 					<td>ID</td>
@@ -68,10 +68,13 @@
 				<td th:text="${lib.getWeb()}">Website</td>
 			</tr>
 		</table>
-		<script>
-			function show(){
-				const element = document.getElementById(libresults);
-				element.display = block;
+		<script type="text/javascript">
+			function hide(){
+				var x = document.getElementById("libres");
+				
+				if(window.location.pathname === "/result"){
+					x.style.display = "block";
+				}
 			}
 		</script>
 		
