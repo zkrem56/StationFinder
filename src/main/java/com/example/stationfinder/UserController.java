@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,30 +52,31 @@ public class UserController {
 	 }*/
 	
 	//Library Results
-	@PostMapping("/result")
+	@RequestMapping(value = "/result", method = RequestMethod.POST)
 	public String submitSearchForm(@ModelAttribute ("libdata") Library libdata, Model model) {
 		List<Library> list = libService.getAllTheLibraries();
 		List<Library> temp = new ArrayList<>();
+		temp.clear();
 		
 		for(int i = 0; i < list.size(); i++) {
-			if(libdata.getLibName() != null && libdata.getLibName().equals(list.get(i).getLibName())) {
+			if(libdata.getLibName() != null && libdata.getLibName().equalsIgnoreCase(list.get(i).getLibName())) {
 				temp.add(libService.getLibrary(i+1));
 				break;
 			}
-			else if(libdata.getAddr() != null && libdata.getAddr().equals(list.get(i).getAddr())) {
+			else if(libdata.getAddr() != null && libdata.getAddr().equalsIgnoreCase(list.get(i).getAddr())) {
 				temp.add(libService.getLibrary(i+1));
 				break;
 			}
-			else if(libdata.getCity() != null && libdata.getCity().equals(list.get(i).getCity())) {
+			else if(libdata.getCity() != null && libdata.getCity().equalsIgnoreCase(list.get(i).getCity())) {
 				temp.add(libService.getLibrary(i+1));
 			}
-			else if(libdata.getCounty() != null && libdata.getCounty().equals(list.get(i).getCounty()))
+			else if(libdata.getZip() == list.get(i).getZip()) {
+				temp.add(libService.getLibrary(i+1));
+			}
+			else if(libdata.getCounty() != null && libdata.getCounty().equalsIgnoreCase(list.get(i).getCounty()))
 				temp.add(libService.getLibrary(i+1));
 		}
 		
-		for(int i = 0; i < temp.size(); i++) {
-			System.out.println(temp.get(i).getLibName());
-		}
 		
 		model.addAttribute("temp", temp);
 		
@@ -126,7 +128,7 @@ public class UserController {
 	@PostMapping("/register")
 	public String submitRegForm(@ModelAttribute ("user") User user) {
 		userService.updateUser(user);
-		return "registeredUser";
+		return "loginUser";
 	}
 	
 }

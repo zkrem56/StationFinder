@@ -28,19 +28,27 @@
 					<td><label for="libname">Name: </label></td>
 					<td><input id="libname" name="libname"></td>
 				</tr>
+				
 				<tr>
 					<td><label for="addr">Library Address: </label></td>
 					<td><input type="text" id="addr" name="addr"></td>
 				</tr>
+				
 				<tr>
 					<td><label for="city">Library City: </label></td>
 					<td><input type="text" id="city" name="city"></td>
 				</tr>
 				
 				<tr>
+					<td><label for="zip">Zip Code: </label></td>
+					<td><input type="number" id="zip" name="zip" value="0" required></td>
+				</tr>
+				
+				<tr>
 					<td><label for="county">Library Country: </label></td>
 					<td><input type="text" id="county" name="county"></td>
 				</tr>
+				
 				<tr>
 					<td></td>
 					<td><button type="submit">Search</button></td>
@@ -51,21 +59,23 @@
 		<table id="libres" class="libresults" hidden>
 			<thread>
 				<tr>
-					<td>ID</td>
-					<td>Name</td>
+					<td>Library Name</td>
+					<td>Branch Name</td>
 					<td>Address</td>
 					<td>City</td>
+					<td>Zip Code</td>
 					<td>County</td>
-					<td>Website</td>
+					<td>Library Email Address</td>
 				</tr>
 			</thread>
 			<tr th:each="lib : ${temp}">
-				<td th:text="${lib.id}">Id</td>
-				<td th:text="${lib.getLibName()}">Name</td>
+				<td th:text="${lib.getLibName()}">Library Name</td>
+				<td th:text="${lib.getBranchName()}">Branch Name</td>
 				<td th:text="${lib.addr}">Address</td>
 				<td th:text="${lib.city}">City</td>
+				<td th:text="${lib.zip}">Zip Code</td>
 				<td th:text="${lib.county}">County</td>
-				<td th:text="${lib.getWeb()}">Website</td>
+				<td th:text="${lib.email}">Library Email Address</td>
 			</tr>
 		</table>
 		<script type="text/javascript">

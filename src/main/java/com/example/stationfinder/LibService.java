@@ -24,11 +24,13 @@ public class LibService {
 		for(int i = 1; true; i++) {
 			try {
 				list.add(new Library(template.queryForObject("select ID from Libraries where ID = " + i, Integer.class),
-						template.queryForObject("select lib_name from Libraries where ID = " + i, String.class),
-						template.queryForObject("select lib_address from Libraries where ID = " + i, String.class),
-						template.queryForObject("select lib_city from Libraries where ID = " + i, String.class),
-						template.queryForObject("select lib_web from Libraries where ID = " + i, String.class),
-						template.queryForObject("select lib_county from Libraries where ID = " + i, String.class)));
+						template.queryForObject("select Library_Name from Libraries where ID = " + i, String.class),
+						template.queryForObject("select Branch_Name from Libraries where ID = " + 1, String.class),
+						template.queryForObject("select Mailing_Address from Libraries where ID = " + i, String.class),
+						template.queryForObject("select City from Libraries where ID = " + i, String.class),
+						template.queryForObject("select Library_Email_Address from Libraries where ID = " + i, String.class),
+						template.queryForObject("select ZIP_Code from Libraries where ID = " + i, Integer.class),
+						template.queryForObject("select County from Libraries where ID = " + i, String.class)));
 			}
 			catch (Exception e) {
 				System.out.println("Did not work");
