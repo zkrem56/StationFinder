@@ -4,27 +4,30 @@ import java.util.List;
 
 public class Library {
 
-	private String libname, addr, city, website, county;
-	private int id;
+	private String libname, branchname, addr, city, email, county;
+	private int id, zip;
 	
 	public Library() {}
 	
 	public Library(String libname) {
 		this.libname = libname;
 	}
-	public Library(String libname, String addr, String city, String county) {
+	public Library(String libname, String addr, String city, int zip, String county) {
 		this.libname = libname;
 		this.addr = addr;
 		this.city = city;
+		this.zip = zip;
 		this.county = county;
 	}
 	
-	public Library(int id, String libname, String addr, String city, String website, String county) {
+	public Library(int id, String libname, String branchname, String addr, String city, String email, int zip, String county) {
 		this.id = id;
 		this.libname = libname;
+		this.branchname = branchname;
 		this.addr = addr;
 		this.city = city;
-		this.website = website;
+		this.email = email;
+		this.zip = zip;
 		this.county = county;
 	}
 	
@@ -44,6 +47,14 @@ public class Library {
 		this.libname = libname;
 	}
 	
+	public String getBranchName() {
+		return branchname;
+	}
+	
+	public void setBranchName(String branchname) {
+		this.branchname = branchname;
+	}
+	
 	public String getAddr() {
 		return addr;
 	}
@@ -52,12 +63,20 @@ public class Library {
 		this.addr = addr;
 	}
 	
-	public String getWeb() {
-		return website;
+	public String getEmail() {
+		return email;
 	}
 	
-	public void setWeb(String website) {
-		this.website = website;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public int getZip() {
+		return zip;
+	}
+	
+	public void setZip(int zip) {
+		this.zip = zip;
 	}
 	
 	public String getCounty() {
@@ -77,6 +96,6 @@ public class Library {
 	}
 	
 	public String toString() {
-		return "" + this.id + " " + this.libname + " " + this.addr + " " + this.city + " " + this.website + " " + this.county + "\n";
+		return "" + this.id + " " + this.libname + " " + this.addr + " " + this.city + " " + this.email + " " + this.county + "\n";
 	}
 }
