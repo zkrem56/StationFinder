@@ -57,32 +57,63 @@
 				</tr>
 			</table>
 		</form>
-		
-		<table id="libres" class="libresults" hidden>
-			<thread>
-				<tr>
-					<td>Library Name</td>
-					<td>Branch Name</td>
-					<td>Address</td>
-					<td>City</td>
-					<td>Zip Code</td>
-					<td>County</td>
-					<td>Library Email Address</td>
+		<div id="libres1" hidden>
+			<table id="libres" class="libresults">
+				<thread>
+					<tr>
+						<td>Library Name</td>
+						<td>Branch Name</td>
+						<td>Address</td>
+						<td>City</td>
+						<td>Zip Code</td>
+						<td>County</td>
+						<td>Library Email Address</td>
+					</tr>
+				</thread>
+				<tr th:each="lib : ${temp}">
+					<td th:text="${lib.getLibName()}">Library Name</td>
+					<td th:text="${lib.getBranchName()}">Branch Name</td>
+					<td th:text="${lib.addr}">Address</td>
+					<td th:text="${lib.city}">City</td>
+					<td th:text="${lib.zip}">Zip Code</td>
+					<td th:text="${lib.county}">County</td>
+					<td th:text="${lib.email}">Library Email Address</td>
+					<td><button id="like" onclick="likeBtn()">Like</button></td>
 				</tr>
-			</thread>
-			<tr th:each="lib : ${temp}">
-				<td th:text="${lib.getLibName()}">Library Name</td>
-				<td th:text="${lib.getBranchName()}">Branch Name</td>
-				<td th:text="${lib.addr}">Address</td>
-				<td th:text="${lib.city}">City</td>
-				<td th:text="${lib.zip}">Zip Code</td>
-				<td th:text="${lib.county}">County</td>
-				<td th:text="${lib.email}">Library Email Address</td>
-			</tr>
-		</table>
+			</table>
+			
+			<div id="review">
+				<p>Did you like the Search results?</p>
+				<button type="submit" th:action="@{/aboutUs}">Yes</button>
+				<button onclick="showCom()")>No</button>
+			</div>
+			
+			<div id="com" hidden>
+				<p>Tell us how we can improve this search</p>
+				<form>
+					<input type="text">
+				</form>
+			</div>
+			
+		</div>
 		<script type="text/javascript">
+			function showCom(){
+				var x = document.getElementById("com");
+				var y = document.getElementById("review");
+				y.style.display = "none";
+				x.style.display = "block";
+			}
+			
+			function likeBtn(){
+				var x = document.getElementById("like");
+				if(x.style.background != "blue")
+					x.style.background = "blue";
+				else
+					x.style.background = "#BA5A31";
+			}
+			
 			function hide(){
-				var x = document.getElementById("libres");
+				var x = document.getElementById("libres1");
 				
 				if(window.location.pathname === "/result"){
 					x.style.display = "block";
