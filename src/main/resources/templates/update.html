@@ -1,0 +1,204 @@
+<html xmlns:th="https://thymeleaf.org">
+	<head>
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="tableresults.css">
+	</head>
+	
+	<body onload="hide()">
+		<div id="phead">
+			<h1>Update</h1>
+			<nav>
+				<ul>
+					<li id="lp"><a href="index">Home</a></li>
+					<li id="lp"><a href="aboutUs">About Us</a></li>
+					<li id="lp"><a href="contact">Contact Us</a></li>
+					<li id="rp"><a href="register">Register</a></li>
+					<li id="rp"><a href="login">Sign In</a></li>
+				</ul>
+			</nav>
+		</div>
+		
+		<div>
+				<select name="options" id="options">
+					<option value="update">Update</option>
+					<option value="delete">Delete</option>
+					<option value="add">Add</option>
+				</select>
+				<button type="submit" onclick="selectUp()">Submit</button>
+		</div>
+		
+		<div id="up" hidden>
+			<form th:action="@{}" th:object="${libdata}" method="post">
+				<table>
+					<tr>
+						<td><label for="libname">Library Name: </label></td>
+						<td><input type="text" id="libname" name="libname"></td>
+					</tr>
+					
+					<tr>
+						<td><label for="addr">Library Address: </label></td>
+						<td><input type="text" id="addr" name="addr" required></td>
+					</tr>
+					
+					<tr>
+						<td><label for="city">Library City: </label></td>
+						<td><input type="text" id="city" name="city"></td>
+					</tr>
+					
+					<tr>
+						<td><label for="zip">Library Zip Code</label></td>
+						<td><input type="number" id="zip" name="zip" value="0" required></td>
+					</tr>
+					
+					<tr>
+						<td><label for="county">Library County: </label></td>
+						<td><input type="text" id="county" name="county"></td>
+					</tr>
+					
+					<tr>
+						<td><button type="submit" value="Submit">Update</button></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		
+		<div id="del" hidden>
+		
+		<form th:action="@{}" th:object="${libdata}" method="post">
+				<table>
+					<tr>
+						<td><label for="libname">Library Name: </label></td>
+						<td><input type="text" id="libname" name="libname"></td>
+					</tr>
+					
+					<tr>
+						<td><label for="addr">Library Address: </label></td>
+						<td><input type="text" id="addr" name="addr" required></td>
+					</tr>
+					
+					<tr>
+						<td><label for="city">Library City: </label></td>
+						<td><input type="text" id="city" name="city"></td>
+					</tr>
+					
+					<tr>
+						<td><label for="zip">Library Zip Code</label></td>
+						<td><input type="number" id="zip" name="zip" value="0" required></td>
+					</tr>
+					
+					<tr>
+						<td><label for="county">Library County: </label></td>
+						<td><input type="text" id="county" name="county"></td>
+					</tr>
+					
+					<tr>
+						<td><button type="submit" value="Submit">Delete</button></td>
+					</tr>
+				</table>
+			</form>
+		
+		</div>
+		
+		<div id="add" hidden>
+		
+		<form th:action="@{}" th:object="${libdata}" method="post">
+				<table>
+					<tr>
+						<td><label for="libname">Library Name: </label></td>
+						<td><input type="text" id="libname" name="libname" required></td>
+					</tr>
+					
+					<tr>
+						<td><label for="addr">Library Address: </label></td>
+						<td><input type="text" id="addr" name="addr" required></td>
+					</tr>
+					
+					<tr>
+						<td><label for="city">Library City: </label></td>
+						<td><input type="text" id="city" name="city" required></td>
+					</tr>
+					
+					<tr>
+						<td><label for="zip">Library Zip Code</label></td>
+						<td><input type="number" id="zip" name="zip" value="0" required></td>
+					</tr>
+					
+					<tr>
+						<td><label for="county">Library County: </label></td>
+						<td><input type="text" id="county" name="county" required></td>
+					</tr>
+					
+					<tr>
+						<td><button type="submit" value="Submit">Add</button></td>
+					</tr>
+				</table>
+			</form>
+		
+		</div>
+		
+		<div id="libres1" hidden>
+			<table id="libres" class="libresults">
+				<thread>
+					<tr>
+						<td>Library Name</td>
+						<td>Branch Name</td>
+						<td>Address</td>
+						<td>City</td>
+						<td>Zip Code</td>
+						<td>County</td>
+						<td>Library Email Address</td>
+					</tr>
+				</thread>
+				<tr th:each="lib : ${temp}">
+					<td th:text="${lib.getLibName()}">Library Name</td>
+					<td th:text="${lib.getBranchName()}">Branch Name</td>
+					<td th:text="${lib.addr}">Address</td>
+					<td th:text="${lib.city}">City</td>
+					<td th:text="${lib.zip}">Zip Code</td>
+					<td th:text="${lib.county}">County</td>
+					<td th:text="${lib.email}">Library Email Address</td>
+					<td><button id="like" onclick="likeBtn()">Like</button></td>
+				</tr>
+			</table>
+			
+			
+		</div>
+		<script type="text/javascript">
+			function selectUp(){
+				var x = document.getElementById("options");
+				
+				if(x.value === "update"){
+					document.getElementById("up").style.display = "block";
+					document.getElementById("del").style.display = "none";
+					doucment.getElementById("add").style.display = "none";
+				}
+				else if(x.value === "delete"){
+					document.getElementById("del").style.display = "block";
+					document.getElementById("up").style.display = "none";
+					document.getElementById("add").style.display = "none";
+				}
+				else if(x.value === "add"){
+					document.getElementById("add").style.display = "block";
+					document.getElementById("up").style.display = "none";
+					document.getElementById("del").style.display = "none";
+				}
+			}
+		
+			function showCom(){
+				var x = document.getElementById("com");
+				var y = document.getElementById("review");
+				y.style.display = "none";
+				x.style.display = "block";
+			}
+			
+			function hide(){
+				var x = document.getElementById("libres1");
+				
+				if(window.location.pathname === "/result"){
+					x.style.display = "block";
+				}
+			}
+		</script>
+		
+	</body>
+</html>

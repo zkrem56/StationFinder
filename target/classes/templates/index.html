@@ -83,16 +83,11 @@
 			</table>
 			
 			<div id="review">
-				<p>Did you like the Search results?</p>
-				<button type="submit" th:action="@{/aboutUs}">Yes</button>
-				<button onclick="showCom()")>No</button>
-			</div>
-			
-			<div id="com" hidden>
-				<p>Tell us how we can improve this search</p>
-				<form>
-					<input type="text">
+				<p>Do you want to update the database?</p>
+				<form action="/update">
+					<button type="submit" value="Submit">Yes</button>
 				</form>
+				<button onclick="showCom()")>No</button>
 			</div>
 			
 		</div>

@@ -16,6 +16,7 @@ public class LibService {
 	private JdbcTemplate template;
 	
 	private List<Library> list = new ArrayList<>();
+	public int max_count = 380;
 	public LibService(JdbcTemplate template) {
 		System.out.println("Service Layer is created");
 		
@@ -59,6 +60,8 @@ public class LibService {
 	
 	//Save the Player
 	public void saveLibrary(Library library) {
+		max_count++;
+		template.update("insert into Libraries(ID, Library_Name, Branch_Name, Mailing_Address, City, State, ZIP_Code, County, Library_Email_Address) values(?, ?, ?, ?, ?, ?, ?, ?, ?)", max_count, library.getLibName(), library.getBranchName(), library.getAddr(), library.getCity(), null, library.getZip(), library.getCounty(), library.getEmail());
 		this.list.add(library);
 	}
 	
@@ -73,6 +76,7 @@ public class LibService {
 	
 	//Remove Library
 	public void deleteLibrary(int id) {
+		template.update("delete * from  Libraries where ID = " + id, Integer.class);
 		list.remove(id);
 	}
 }
