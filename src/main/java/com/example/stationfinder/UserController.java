@@ -43,6 +43,11 @@ public class UserController {
 		return "index";
 	}
 	
+	@RequestMapping("/update")
+	public String update() {
+		return "update";
+	}
+	
 	/*@GetMapping("/result") 
 	public String showHome(Model model) { 
 		Library libdata =  new Library(); 
