@@ -64,6 +64,11 @@ public class UserController {
 		return "search_form"; 
 	 }*/
 	
+	@RequestMapping("/thanks")
+	public String thankyou() {
+		return "thanks";
+	}
+	
 	@RequestMapping(value = "/updated", method = RequestMethod.POST)
 	public String updated(@ModelAttribute ("libdata") Library libdata, Model model) {
 		libService.updateLibrary(libdata);
@@ -105,6 +110,16 @@ public class UserController {
 							template1.queryForObject("select County from Libraries where Library_Name = '"+libdata.getLibName()+"'", String.class)));
 					break;
 				}
+				else if(libdata.getBranchName() != null && libdata.getBranchName().length() > 2 && libdata.getBranchName().equalsIgnoreCase(template1.queryForObject("select Branch_Name from Libraries where ID="+i, String.class))){
+					temp.add(new Library(template1.queryForObject("select ID from Libraries where ID = "+i, Integer.class),
+							template1.queryForObject("select Library_Name from Libraries where ID = "+i, String.class),
+							template1.queryForObject("select Branch_Name from Libraries where ID = "+i, String.class),
+							template1.queryForObject("select Mailing_Address from Libraries where ID = "+i, String.class),
+							template1.queryForObject("select City from Libraries where ID = "+i, String.class),
+							template1.queryForObject("select Library_Email_Address from Libraries where ID = "+i, String.class),
+							template1.queryForObject("select ZIP_Code from Libraries where ID = "+i, Integer.class),
+							template1.queryForObject("select County from Libraries where ID = "+i, String.class)));
+				}
 				else if(libdata.getAddr() != null && libdata.getAddr().length() > 2 && libdata.getAddr().equalsIgnoreCase(template1.queryForObject("select Mailing_Address from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", String.class))) {
 					System.out.println(template1.getFetchSize());
 					temp.add(new Library(template1.queryForObject("select ID from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", Integer.class),
@@ -117,7 +132,7 @@ public class UserController {
 							template1.queryForObject("select County from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", String.class)));
 					break;
 				}
-				else if(libdata.getCity() != null && libdata.getCity().length() > 2 && libdata.getCity().equalsIgnoreCase(template1.queryForObject("select City from Libraries where City = '"+libdata.getCity()+"';", String.class )) && template1.queryForObject("select ID from Libraries where City = '"+libdata.getCity()+"'", Integer.class) == i) {
+				else if(libdata.getCity() != null && libdata.getCity().length() > 2 && libdata.getCity().equalsIgnoreCase(template1.queryForObject("select City from Libraries where ID = "+i, String.class))) {
 					temp.add(new Library(template1.queryForObject("select ID from Libraries where ID = " + i, Integer.class),
 							template1.queryForObject("select Library_Name from Libraries where ID = " + i, String.class),
 							template1.queryForObject("select Branch_Name from Libraries where ID = " + i, String.class),
@@ -137,7 +152,7 @@ public class UserController {
 							template1.queryForObject("select ZIP_Code from Libraries where ID = " + i, Integer.class),
 							template1.queryForObject("select County from Libraries where ID = " + i, String.class)));
 				}
-				else if(libdata.getCounty() != null && libdata.getCounty().length() > 2 && libdata.getCounty().equalsIgnoreCase(template1.queryForObject("select County from Libraries where County = '"+libdata.getCounty()+"'", String.class)))
+				else if(libdata.getCounty() != null && libdata.getCounty().length() > 2 && libdata.getCounty().equalsIgnoreCase(template1.queryForObject("select County from Libraries where ID = "+i, String.class)))
 					temp.add(new Library(template1.queryForObject("select ID from Libraries where ID = " + i, Integer.class),
 							template1.queryForObject("select Library_Name from Libraries where ID = " + i, String.class),
 							template1.queryForObject("select Branch_Name from Libraries where ID = " + 1, String.class),
@@ -214,5 +229,16 @@ public class UserController {
 		return "update";
 	}*/
 	
+	public static int findId(List<Library> lib, Library library) {
+		int temp = 0;
+		for(int i = 0; i < lib.size(); i++) {
+			if(lib.get(i).getCity().equalsIgnoreCase(library.getCity())) {
+				temp =  lib.get(i).getId();
+				break;
+			}
+		}
+		
+		return temp;
+	}
 	
 }
