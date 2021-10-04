@@ -4,7 +4,7 @@
 		<link rel="stylesheet" href="tableresults.css">
 	</head>
 	
-	<body onload="hide()">
+	<body>
 		<div id="phead">
 			<h1>Update</h1>
 			<nav>
@@ -28,7 +28,7 @@
 		</div>
 		
 		<div id="up" hidden>
-			<form th:action="@{}" th:object="${libdata}" method="post">
+			<form th:action="@{/updated}" th:object="${libdata}" method="post">
 				<table>
 					<tr>
 						<td><label for="libname">Library Name: </label></td>
@@ -56,7 +56,7 @@
 					</tr>
 					
 					<tr>
-						<td><button type="submit" value="Submit">Update</button></td>
+						<td><button type="submit">Update</button></td>
 					</tr>
 				</table>
 			</form>
@@ -64,7 +64,7 @@
 		
 		<div id="del" hidden>
 		
-		<form th:action="@{}" th:object="${libdata}" method="post">
+			<form th:action="@{/delete}" th:object="${libdata}" method="post">
 				<table>
 					<tr>
 						<td><label for="libname">Library Name: </label></td>
@@ -101,7 +101,7 @@
 		
 		<div id="add" hidden>
 		
-		<form th:action="@{}" th:object="${libdata}" method="post">
+			<form th:action="@{/add}" th:object="${libdata}" method="post">
 				<table>
 					<tr>
 						<td><label for="libname">Library Name: </label></td>
@@ -136,33 +136,6 @@
 		
 		</div>
 		
-		<div id="libres1" hidden>
-			<table id="libres" class="libresults">
-				<thread>
-					<tr>
-						<td>Library Name</td>
-						<td>Branch Name</td>
-						<td>Address</td>
-						<td>City</td>
-						<td>Zip Code</td>
-						<td>County</td>
-						<td>Library Email Address</td>
-					</tr>
-				</thread>
-				<tr th:each="lib : ${temp}">
-					<td th:text="${lib.getLibName()}">Library Name</td>
-					<td th:text="${lib.getBranchName()}">Branch Name</td>
-					<td th:text="${lib.addr}">Address</td>
-					<td th:text="${lib.city}">City</td>
-					<td th:text="${lib.zip}">Zip Code</td>
-					<td th:text="${lib.county}">County</td>
-					<td th:text="${lib.email}">Library Email Address</td>
-					<td><button id="like" onclick="likeBtn()">Like</button></td>
-				</tr>
-			</table>
-			
-			
-		</div>
 		<script type="text/javascript">
 			function selectUp(){
 				var x = document.getElementById("options");
@@ -181,21 +154,6 @@
 					document.getElementById("add").style.display = "block";
 					document.getElementById("up").style.display = "none";
 					document.getElementById("del").style.display = "none";
-				}
-			}
-		
-			function showCom(){
-				var x = document.getElementById("com");
-				var y = document.getElementById("review");
-				y.style.display = "none";
-				x.style.display = "block";
-			}
-			
-			function hide(){
-				var x = document.getElementById("libres1");
-				
-				if(window.location.pathname === "/result"){
-					x.style.display = "block";
 				}
 			}
 		</script>
