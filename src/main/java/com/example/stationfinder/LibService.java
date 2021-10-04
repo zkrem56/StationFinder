@@ -14,13 +14,16 @@ public class LibService {
 
 	@Autowired
 	private JdbcTemplate template;
-	
-	private List<Library> list = new ArrayList<>();
+
 	public int max_count = 380;
 	public LibService(JdbcTemplate template) {
 		System.out.println("Service Layer is created");
+	}
+	
+	//Return all the libraries
+	public List<Library> getAllTheLibraries(){
 		
-		this.template = template;
+		List<Library> list = new ArrayList();
 		
 		for(int i = 1; true; i++) {
 			try {
@@ -38,45 +41,54 @@ public class LibService {
 				System.out.println(e.toString());
 				break;
 			}
-		}
-	}
-	
-	//Return all the libraries
-	public List<Library> getAllTheLibraries(){
 		
-		return list;
-	}
-	
-	
-	//Return Single Library
-	public Library getLibrary(int id) {
-		for(Library p: list) {
-			if(p.getId() == id) {
-				return p;
-			}
 		}
-		return null;
+		return list;
 	}
 	
 	//Save the Player
 	public void saveLibrary(Library library) {
-		max_count++;
 		template.update("insert into Libraries(ID, Library_Name, Branch_Name, Mailing_Address, City, State, ZIP_Code, County, Library_Email_Address) values(?, ?, ?, ?, ?, ?, ?, ?, ?)", max_count, library.getLibName(), library.getBranchName(), library.getAddr(), library.getCity(), null, library.getZip(), library.getCounty(), library.getEmail());
-		this.list.add(library);
 	}
 	
 	//Update the Library
 	public void updateLibrary(Library library) {
-		for(Library p: list) {
-			if(p.getId() == library.getId()) {
-				p.setLibName(library.getLibName());
-			}
-		}
+		
+				try {
+					if(library.getLibName() != null) {
+						template.update("update Libraries set Library_Name='"+ library.getLibName() +"' where Mailing_Address = '"+ library.getAddr() +"'");
+					}
+					
+					/*if(library.getBranchName() != null) {
+						p.setBranchName(library.getBranchName());
+						template.update("update Libraries set Branch_Name where ID = " + p.getId(), library.getBranchName());
+					}*/
+					
+					if(library.getCity() != null && library.getCity().isEmpty() == false) {
+						template.update("update Libraries set City = '"+ library.getCity() +"' where Mailing_Address = '"+ library.getAddr() +"'");
+					}
+					
+					if(library.getZip() != 0 && library.getZip() > 0) {
+						template.update("update Libraries set ZIP_Code = '"+library.getZip() +"' where Mailing_Address = '"+ library.getAddr() +"'");
+					}
+					
+					if(library.getCounty() != null && library.getCounty().isBlank() == false) {
+						template.update("update Libraries set County = '"+library.getCounty()+"' where Mailing_Address = '"+ library.getAddr() +"'");
+					}
+					
+					/*if(library.getEmail() != null) {
+						p.setEmail(library.getEmail());
+						template.update("update Libraries set Library_Email_Address = '"+ library.getEmail() +"' where ID = '"+p.getId()+"'");
+					}*/
+				} catch(Exception e) {
+					System.out.println(e.toString());
+				}
+				
 	}
 	
 	//Remove Library
-	public void deleteLibrary(int id) {
-		template.update("delete * from  Libraries where ID = " + id, Integer.class);
-		list.remove(id);
+	public void deleteLibrary(Library library) {
+		template.update("delete * from Libraries where Mailing_Address = '"+library.getAddr()+"'");
+		
 	}
 }
