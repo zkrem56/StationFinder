@@ -23,7 +23,7 @@ public class LibService {
 	//Return all the libraries
 	public List<Library> getAllTheLibraries(){
 		
-		List<Library> list = new ArrayList();
+		List<Library> list = new ArrayList<>();
 		
 		for(int i = 1; true; i++) {
 			try {
@@ -59,10 +59,9 @@ public class LibService {
 						template.update("update Libraries set Library_Name='"+ library.getLibName() +"' where Mailing_Address = '"+ library.getAddr() +"'");
 					}
 					
-					/*if(library.getBranchName() != null) {
-						p.setBranchName(library.getBranchName());
-						template.update("update Libraries set Branch_Name where ID = " + p.getId(), library.getBranchName());
-					}*/
+					if(library.getBranchName() != null) {
+						template.update("update Libraries set Branch_Name='"+library.getBranchName()+"' where Mailling_Address = '"+library.getAddr()+"'");
+					}
 					
 					if(library.getCity() != null && library.getCity().isEmpty() == false) {
 						template.update("update Libraries set City = '"+ library.getCity() +"' where Mailing_Address = '"+ library.getAddr() +"'");
@@ -90,5 +89,17 @@ public class LibService {
 	public void deleteLibrary(Library library) {
 		template.update("delete * from Libraries where Mailing_Address = '"+library.getAddr()+"'");
 		
+	}
+	
+	public int findId(List<Library> lib, Library library) {
+		int temp = 0;
+		for(int i = 0; i < lib.size(); i++) {
+			if(lib.get(i).getCity().equalsIgnoreCase(library.getCity())) {
+				temp =  lib.get(i).getId();
+				break;
+			}
+		}
+		
+		return temp;
 	}
 }
