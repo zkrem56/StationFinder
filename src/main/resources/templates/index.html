@@ -12,8 +12,10 @@
 					<li id="lp"><a href="index">Home</a></li>
 					<li id="lp"><a href="aboutUs">About Us</a></li>
 					<li id="lp"><a href="contact">Contact Us</a></li>
-					<li id="rp"><a href="register">Register</a></li>
-					<li id="rp"><a href="login">Sign In</a></li>
+					<li id="reg"><a href="register">Register</a></li>
+					<li id="sign"><a href="login">Sign In</a></li>
+					<li id="usr" hidden th:text="${user.username}"></li>
+					<li id="log" hidden><a href="logout">Logout</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -24,16 +26,16 @@
 			Data Source: https://www.sos.mo.gov/library/libdir
 		</p>
 		
-		<form action="show()" th:action="@{/result}" th:object="${libdata}" method="post">
+		<form action="#" th:action="@{/result}" method="post" th:object="${libdata}">
 			<table>
 				<tr>
-					<td><label for="libname">Name: </label></td>
-					<td><input id="libname" name="libname"></td>
+					<td><label for="libName">Library Name: </label></td>
+					<td><input type="text" id="libName" name="libName"></td>
 				</tr>
 				
 				<tr>
-					<td><label for="branchname">Library Branch Name: </label></td>
-					<td><input id="branchname" name="branchname"></td>
+					<td><label for="branchName">Library Branch Name: </label></td>
+					<td><input type="text" id="branchName" name="branchName"></td>
 				</tr>
 				
 				<tr>
@@ -92,20 +94,40 @@
 					<button type="submit" value="Submit">Yes</button>
 				</form>
 				
-				<form action="/thanks">
-					<button onclick="showCom()")>No</button>
+				<form action="/thankyou">
+					<button>No</button>
 				</form>
 			</div>
 			
 		</div>
-		<script type="text/javascript">
+		<script th:inline="javascript" type="text/javascript">
 			
 			function hide(){
 				var x = document.getElementById("libres1");
+				var y = document.getElementById("usr");
+				
+				document.getElementById("log").style.dispaly = "none";
 				
 				if(window.location.pathname === "/result"){
 					x.style.display = "block";
 				}
+				
+				document.getElementById("usr").style.display = "none";
+				document.getElementById("log").style.display = "none";
+				
+				if(y.innerHTML.length > 0){
+					document.getElementById("reg").style.display = "none";
+					document.getElementById("sign").style.display = "none";
+					document.getElementById("log").style.display = "block";
+					y.style.display = "block";
+				}
+				else{
+					document.getElementBtId("reg").style.display = "block";
+					document.getElementById("sign").style.display = "block";
+					document.getElementById("usr").style.display = "none";
+					doucment.getElementById("log").style.display = "none";
+				}
+				
 			}
 		</script>
 		
