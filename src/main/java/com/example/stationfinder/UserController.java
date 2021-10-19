@@ -20,10 +20,9 @@ import com.example.stationdata.Library;
 public class UserController {
 	
 	private String uname, pass, n;
-	private String libName, libAddr, libCity, libCounty, libWeb;
-	private int libId;
-	private int maxRows = 1;
-	private int maxlibs = 17;
+	private User usr = new User();
+	
+	private boolean ln = false, bn = false, adr = false, cit = false, zi = false, co = false;
 	
 	//private ArrayList<Library> lib = new ArrayList<Library>();
 	
@@ -39,7 +38,8 @@ public class UserController {
 	//Home Page
 	
 	@RequestMapping("/index")
-	public String index() {
+	public String index(Model model) {
+		model.addAttribute("user", usr);
 		return "index";
 	}
 	
@@ -52,7 +52,7 @@ public class UserController {
 	public String showUpdatePage(Model model) {
 		Library libdata = new Library();
 		model.addAttribute("libdata", libdata);
-		
+		model.addAttribute("user", usr);
 		return "update";
 	}
 	
@@ -64,9 +64,22 @@ public class UserController {
 		return "search_form"; 
 	 }*/
 	
+	@RequestMapping("/")
+	public String test(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);		
+		return "index";
+	}
+	
 	@RequestMapping("/thanks")
 	public String thankyou() {
+		
 		return "thanks";
+	}
+	
+	@RequestMapping("/thankyou")
+	public String thankyou2() {
+		return "thankyou";
 	}
 	
 	@RequestMapping(value = "/updated", method = RequestMethod.POST)
@@ -90,85 +103,53 @@ public class UserController {
 	//Library Results
 	@RequestMapping(value = "/result", method = RequestMethod.POST)
 	public String submitSearchForm(@ModelAttribute ("libdata") Library libdata, Model model) {
-		List<Library> list = libService.getAllTheLibraries();
+		//List<Library> list = libService.getAllTheLibraries();
 		List<Library> temp = new ArrayList<>();
+		int max = template1.queryForObject("select max(ID) from Libraries", Integer.class);
+		int sid = 0;
 		temp.clear();
 		
-		System.out.println(libdata.getLibName());
-		System.out.println(template1.queryForObject("select max(ID) from Libraries", Integer.class));;
-		
-		for(int i = 1;  i <= template1.queryForObject("select max(ID) from Libraries", Integer.class); i++) {
+		if(libdata.getLibName().length() > 2 && libdata.getBranchName().length() > 2 && libdata.getAddr().length() > 2 && libdata.getZip() > 0 && libdata.getCity().length() > 2 && libdata.getCounty().length() > 2) {
 			try {
-				if(libdata.getLibName() != null && libdata.getLibName().equalsIgnoreCase(template1.queryForObject("select Library_Name from Libraries where Library_Name = '"+libdata.getLibName()+"'", String.class))) {
-					temp.add(new Library(template1.queryForObject("select ID from Libraries where Library_Name = '"+libdata.getLibName()+"'", Integer.class),
-							template1.queryForObject("select Library_Name from Libraries where Library_Name = '"+libdata.getLibName()+"'", String.class),
-							template1.queryForObject("select Branch_Name from Libraries where Library_Name = '"+libdata.getLibName()+"'", String.class),
-							template1.queryForObject("select Mailing_Address from Libraries where Library_Name = '"+libdata.getLibName()+"'", String.class),
-							template1.queryForObject("select City from Libraries where Library_Name = '"+libdata.getLibName()+"'", String.class),
-							template1.queryForObject("select Library_Email_Address from Libraries where Library_Name = '"+libdata.getLibName()+"'", String.class),
-							template1.queryForObject("select ZIP_Code from Libraries where Library_Name = '"+libdata.getLibName()+"'", Integer.class),
-							template1.queryForObject("select County from Libraries where Library_Name = '"+libdata.getLibName()+"'", String.class)));
-					break;
-				}
-				else if(libdata.getBranchName() != null && libdata.getBranchName().length() > 2 && libdata.getBranchName().equalsIgnoreCase(template1.queryForObject("select Branch_Name from Libraries where ID="+i, String.class))){
-					temp.add(new Library(template1.queryForObject("select ID from Libraries where ID = "+i, Integer.class),
-							template1.queryForObject("select Library_Name from Libraries where ID = "+i, String.class),
-							template1.queryForObject("select Branch_Name from Libraries where ID = "+i, String.class),
-							template1.queryForObject("select Mailing_Address from Libraries where ID = "+i, String.class),
-							template1.queryForObject("select City from Libraries where ID = "+i, String.class),
-							template1.queryForObject("select Library_Email_Address from Libraries where ID = "+i, String.class),
-							template1.queryForObject("select ZIP_Code from Libraries where ID = "+i, Integer.class),
-							template1.queryForObject("select County from Libraries where ID = "+i, String.class)));
-				}
-				else if(libdata.getAddr() != null && libdata.getAddr().length() > 2 && libdata.getAddr().equalsIgnoreCase(template1.queryForObject("select Mailing_Address from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", String.class))) {
-					System.out.println(template1.getFetchSize());
-					temp.add(new Library(template1.queryForObject("select ID from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", Integer.class),
-							template1.queryForObject("select Library_Name from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", String.class),
-							template1.queryForObject("select Branch_Name from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", String.class),
-							template1.queryForObject("select Mailing_Address from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", String.class),
-							template1.queryForObject("select City from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", String.class),
-							template1.queryForObject("select Library_Email_Address from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", String.class),
-							template1.queryForObject("select ZIP_Code from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", Integer.class),
-							template1.queryForObject("select County from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", String.class)));
-					break;
-				}
-				else if(libdata.getCity() != null && libdata.getCity().length() > 2 && libdata.getCity().equalsIgnoreCase(template1.queryForObject("select City from Libraries where ID = "+i, String.class))) {
-					temp.add(new Library(template1.queryForObject("select ID from Libraries where ID = " + i, Integer.class),
-							template1.queryForObject("select Library_Name from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select Branch_Name from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select Mailing_Address from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select City from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select Library_Email_Address from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select ZIP_Code from Libraries where ID = " + i, Integer.class),
-							template1.queryForObject("select County from Libraries where ID = " + i, String.class)));
-				}
-				else if(libdata.getZip() > 0 && libdata.getZip() == template1.queryForObject("select ZIP_Code from Libraries where ZIP_Code = '"+libdata.getZip()+"'", Integer.class) && template1.queryForObject("select ID from Libraries where ZIP_Code = '"+libdata.getZip()+"'", Integer.class) == i) {
-					temp.add(new Library(template1.queryForObject("select ID from Libraries where ID = " + i, Integer.class),
-							template1.queryForObject("select Library_Name from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select Branch_Name from Libraries where ID = " + 1, String.class),
-							template1.queryForObject("select Mailing_Address from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select City from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select Library_Email_Address from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select ZIP_Code from Libraries where ID = " + i, Integer.class),
-							template1.queryForObject("select County from Libraries where ID = " + i, String.class)));
-				}
-				else if(libdata.getCounty() != null && libdata.getCounty().length() > 2 && libdata.getCounty().equalsIgnoreCase(template1.queryForObject("select County from Libraries where ID = "+i, String.class)))
-					temp.add(new Library(template1.queryForObject("select ID from Libraries where ID = " + i, Integer.class),
-							template1.queryForObject("select Library_Name from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select Branch_Name from Libraries where ID = " + 1, String.class),
-							template1.queryForObject("select Mailing_Address from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select City from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select Library_Email_Address from Libraries where ID = " + i, String.class),
-							template1.queryForObject("select ZIP_Code from Libraries where ID = " + i, Integer.class),
-							template1.queryForObject("select County from Libraries where ID = " + i, String.class)));
-			}catch(Exception e) {
-				System.out.println(e.toString());
-				break;
+				System.out.println("HI");
+				sid = template1.queryForObject("select ID from Libraries where Mailing_Address = '"+libdata.getAddr()+"'", Integer.class);
+				System.out.println(sid);
+				temp.add(new Library(
+						sid,
+						template1.queryForObject("select Library_Name from Libraries where ID = "+sid, String.class),
+						template1.queryForObject("select Branch_Name from Libraries where ID = "+sid, String.class),
+						template1.queryForObject("select Mailing_Address from Libraries where ID = "+sid, String.class),
+						template1.queryForObject("select City from Libraries where ID = "+sid, String.class),
+						template1.queryForObject("select Library_Email_Address from Libraries where ID = "+sid, String.class),
+						template1.queryForObject("select ZIP_Code from Libraries where ID = "+sid, Integer.class),
+						template1.queryForObject("select County from Libraries where ID = "+sid, String.class)));
+			}catch(Exception e){
+				System.out.println("Did not work");
 			}
 		}
+		else {
+			
+			if(libdata.getAddr().length() > 2)
+				temp = libService.getAllTheLibraries(libdata, 3);
+			else if(libdata.getZip() > 0)
+				temp = libService.getAllTheLibraries(libdata, 4);
+			else if(libdata.getBranchName().length() > 2)
+				temp = libService.getAllTheLibraries(libdata, 5);
+			else if(libdata.getCity().length() > 2)
+				temp = libService.getAllTheLibraries(libdata, 1);
+			else if(libdata.getLibName().length() > 2)
+				temp = libService.getAllTheLibraries(libdata, 0);
+			else if(libdata.getCounty().length() > 2)
+				temp = libService.getAllTheLibraries(libdata, 2);
+			else
+				temp.add(new Library("Search Not Found"));
+		}
+		
+		System.out.println(libdata.toString());
 		
 		
 		model.addAttribute("temp", temp);
+		model.addAttribute("user", usr);
 		
 		return "index";
 	}
@@ -183,13 +164,16 @@ public class UserController {
 	
 	//Login Authentication
 	@PostMapping("/login")
-	public String submitLogForm(@ModelAttribute ("user") User user) {		
+	public String submitLogForm(@ModelAttribute ("user") User user, Model model) {		
 		List<User> users = userService.getAllTheUsers();
 		
 		for(int i = 0; i < users.size(); i++) {
 			
-			if(user.getUsername().equals(users.get(i).getUsername()) && user.getPassword().equals(users.get(i).getPassword()))
-				return "loginUser";
+			if(user.getUsername().equals(users.get(i).getUsername()) && user.getPassword().equals(users.get(i).getPassword())) {
+				usr.setUsername(user.getUsername());
+				model.addAttribute("user", usr);
+				return "index";
+			}
 		}
 		
 		return "login_form";
@@ -198,6 +182,13 @@ public class UserController {
 	@RequestMapping("/aboutUs")
 	public String aboutUs() {
 		return "aboutUs";
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(Model model) {
+		usr.setUsername("");
+		model.addAttribute("user", usr);
+		return "index";
 	}
 	
 	@RequestMapping("/contact")
@@ -216,9 +207,11 @@ public class UserController {
 	
 	//Adds a new User
 	@PostMapping("/register")
-	public String submitRegForm(@ModelAttribute ("user") User user) {
+	public String submitRegForm(@ModelAttribute ("user") User user, Model model) {
 		userService.updateUser(user);
-		return "loginUser";
+		usr.setUsername(user.getUsername());
+		model.addAttribute("user", usr);
+		return "index";
 	}
 	
 	/*@GetMapping("/update")

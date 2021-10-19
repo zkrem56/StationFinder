@@ -4,28 +4,41 @@ import java.util.List;
 
 public class Library {
 
-	private String libname, branchname, addr, city, email, county;
+	private String libName, branchName, addr, city, email, county, state;
 	private int id, zip;
 	
 	public Library() {}
 	
-	public Library(String libname) {
-		this.libname = libname;
+	public Library(String libName) {
+		this.libName = libName;
 	}
-	public Library(String libname, String addr, String city, int zip, String county) {
-		this.libname = libname;
+	public Library(String libName, String branchName, String addr, String city, int zip, String county) {
+		this.libName = libName;
+		this.branchName = branchName;
 		this.addr = addr;
 		this.city = city;
 		this.zip = zip;
 		this.county = county;
 	}
 	
-	public Library(int id, String libname, String branchname, String addr, String city, String email, int zip, String county) {
+	public Library(int id, String libName, String branchName, String addr, String city, String email, int zip, String county) {
 		this.id = id;
-		this.libname = libname;
-		this.branchname = branchname;
+		this.libName = libName;
+		this.branchName = branchName;
 		this.addr = addr;
 		this.city = city;
+		this.email = email;
+		this.zip = zip;
+		this.county = county;
+	}
+	
+	public Library(int id, String libName, String branchName, String addr, String city, String state, String email, int zip, String county) {
+		this.id = id;
+		this.libName = libName;
+		this.branchName = branchName;
+		this.addr = addr;
+		this.city = city;
+		this.setState(state);
 		this.email = email;
 		this.zip = zip;
 		this.county = county;
@@ -40,19 +53,19 @@ public class Library {
 	}
 	
 	public String getLibName() {
-		return libname;
+		return libName;
 	}
 	
-	public void setLibName(String libname) {
-		this.libname = libname;
+	public void setLibName(String libName) {
+		this.libName = libName;
 	}
 	
 	public String getBranchName() {
-		return branchname;
+		return branchName;
 	}
 	
-	public void setBranchName(String branchname) {
-		this.branchname = branchname;
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 	
 	public String getAddr() {
@@ -96,6 +109,14 @@ public class Library {
 	}
 	
 	public String toString() {
-		return "" + this.id + " " + this.libname + " " + this.addr + " " + this.city + " " + this.email + " " + this.county + "\n";
+		return "" + this.id + "\n" + this.libName + "\n" + this.branchName + "\n" + this.addr + "\n" + this.city + "\n" + this.zip + "\n" + this.county + "\n";
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 }

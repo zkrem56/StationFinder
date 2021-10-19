@@ -4,7 +4,7 @@
 		<link rel="stylesheet" href="tableresults.css">
 	</head>
 	
-	<body>
+	<body onload="hide()">
 		<div id="phead">
 			<h1>Update</h1>
 			<nav>
@@ -12,8 +12,10 @@
 					<li id="lp"><a href="index">Home</a></li>
 					<li id="lp"><a href="aboutUs">About Us</a></li>
 					<li id="lp"><a href="contact">Contact Us</a></li>
-					<li id="rp"><a href="register">Register</a></li>
-					<li id="rp"><a href="login">Sign In</a></li>
+					<li id="reg"><a href="register">Register</a></li>
+					<li id="sign"><a href="login">Sign In</a></li>
+					<li id="usr" hidden th:text="${user.username}"></li>
+					<li id="log" hidden><a href="logout">Logout</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -31,13 +33,13 @@
 			<form th:action="@{/updated}" th:object="${libdata}" method="post">
 				<table>
 					<tr>
-						<td><label for="libname">Library Name: </label></td>
-						<td><input type="text" id="libname" name="libname"></td>
+						<td><label for="libName">Library Name: </label></td>
+						<td><input type="text" id="libName" name="libName"></td>
 					</tr>
 					
 					<tr>
-						<td><label for="branchname">Library Branch Name: </label></td>
-						<td><input type="text" id="branchname" name="branchname"></td>
+						<td><label for="branchName">Library Branch Name: </label></td>
+						<td><input type="text" id="branchName" name="branchName"></td>
 					</tr>
 					
 					<tr>
@@ -72,13 +74,13 @@
 			<form th:action="@{/delete}" th:object="${libdata}" method="post">
 				<table>
 					<tr>
-						<td><label for="libname">Library Name: </label></td>
-						<td><input type="text" id="libname" name="libname"></td>
+						<td><label for="libName">Library Name: </label></td>
+						<td><input type="text" id="libName" name="libName"></td>
 					</tr>
 					
 					<tr>
-						<td><label for="branchname">Library Branch Name: </label></td>
-						<td><input type="text" id="branchname" name="branchname"></td>
+						<td><label for="branchName">Library Branch Name: </label></td>
+						<td><input type="text" id="branchName" name="branchName"></td>
 					</tr>
 					
 					<tr>
@@ -114,13 +116,13 @@
 			<form th:action="@{/add}" th:object="${libdata}" method="post">
 				<table>
 					<tr>
-						<td><label for="libname">Library Name: </label></td>
-						<td><input type="text" id="libname" name="libname" required></td>
+						<td><label for="libName">Library Name: </label></td>
+						<td><input type="text" id="libName" name="libName" required></td>
 					</tr>
 					
 					<tr>
-						<td><label for="branchname">Library Branch Name: </label></td>
-						<td><input type="text" id="branchname" name="branchname"></td>
+						<td><label for="branchName">Library Branch Name: </label></td>
+						<td><input type="text" id="branchName" name="branchName"></td>
 					</tr>
 					
 					<tr>
@@ -141,6 +143,11 @@
 					<tr>
 						<td><label for="county">Library County: </label></td>
 						<td><input type="text" id="county" name="county" required></td>
+					</tr>
+					
+					<tr>
+						<td><label for="email">Library Email: </label></td>
+						<td><input type="text" id="email" name="email" required></td>
 					</tr>
 					
 					<tr>
@@ -170,6 +177,27 @@
 					document.getElementById("up").style.display = "none";
 					document.getElementById("del").style.display = "none";
 				}
+			}
+			
+			function hide(){
+				var y = document.getElementById("usr");
+				
+				document.getElementById("usr").style.display = "none";
+				document.getElementById("log").style.display = "none";
+				
+				if(y.innerHTML.length > 0){
+					document.getElementById("reg").style.display = "none";
+					document.getElementById("sign").style.display = "none";
+					document.getElementById("log").style.display = "block";
+					y.style.display = "block";
+				}
+				else{
+					document.getElementBtId("reg").style.display = "block";
+					document.getElementById("sign").style.display = "block";
+					document.getElementById("usr").style.display = "none";
+					doucment.getElementById("log").style.display = "none";
+				}
+				
 			}
 		</script>
 		
