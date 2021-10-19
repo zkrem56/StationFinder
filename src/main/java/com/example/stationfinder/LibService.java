@@ -259,16 +259,4 @@ public class LibService {
 		template.update("delete * from Libraries where Mailing_Address = '"+library.getAddr()+"'");
 		
 	}
-	
-	public int findId(List<Library> lib, Library library) {
-		int temp = 0;
-		for(int i = 0; i < lib.size(); i++) {
-			if(lib.get(i).getCity().equalsIgnoreCase(library.getCity())) {
-				temp =  lib.get(i).getId();
-				break;
-			}
-		}
-		
-		return temp;
-	}
 }
