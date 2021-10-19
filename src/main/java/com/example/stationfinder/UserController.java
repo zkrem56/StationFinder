@@ -18,13 +18,7 @@ import com.example.stationdata.Library;
 
 @Controller
 public class UserController {
-	
-	private String uname, pass, n;
 	private User usr = new User();
-	
-	private boolean ln = false, bn = false, adr = false, cit = false, zi = false, co = false;
-	
-	//private ArrayList<Library> lib = new ArrayList<Library>();
 	
 	@Autowired
 	private JdbcTemplate template1;
@@ -55,14 +49,6 @@ public class UserController {
 		model.addAttribute("user", usr);
 		return "update";
 	}
-	
-	/*@GetMapping("/result") 
-	public String showHome(Model model) { 
-		Library libdata =  new Library(); 
-		model.addAttribute("libdata", libdata);
-	  
-		return "search_form"; 
-	 }*/
 	
 	@RequestMapping("/")
 	public String test(Model model) {
@@ -105,7 +91,6 @@ public class UserController {
 	public String submitSearchForm(@ModelAttribute ("libdata") Library libdata, Model model) {
 		//List<Library> list = libService.getAllTheLibraries();
 		List<Library> temp = new ArrayList<>();
-		int max = template1.queryForObject("select max(ID) from Libraries", Integer.class);
 		int sid = 0;
 		temp.clear();
 		
@@ -212,26 +197,6 @@ public class UserController {
 		usr.setUsername(user.getUsername());
 		model.addAttribute("user", usr);
 		return "index";
-	}
-	
-	/*@GetMapping("/update")
-	public String showUpdatePage(Model model) {
-		Library libdata = new Library();
-		model.addAttribute("libdata", libdata);
-		
-		return "update";
-	}*/
-	
-	public static int findId(List<Library> lib, Library library) {
-		int temp = 0;
-		for(int i = 0; i < lib.size(); i++) {
-			if(lib.get(i).getCity().equalsIgnoreCase(library.getCity())) {
-				temp =  lib.get(i).getId();
-				break;
-			}
-		}
-		
-		return temp;
 	}
 	
 }
