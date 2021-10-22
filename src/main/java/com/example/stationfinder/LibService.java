@@ -29,7 +29,7 @@ public class LibService {
 			case 0:
 				try {
 					min = template.queryForObject("select min(ID) from Libraries where Library_Name = '"+library.getLibName()+"'", Integer.class);
-					max = template.queryForObject("select mix(ID) from Libraries where Library_Name = '"+library.getLibName()+"'", Integer.class);
+					max = template.queryForObject("select max(ID) from Libraries where Library_Name = '"+library.getLibName()+"'", Integer.class);
 				}catch(Exception e) {
 					list.add(new Library("Search Not Found"));
 					return list;
@@ -67,7 +67,7 @@ public class LibService {
 										template.queryForObject("select County from Libraries where ID = "+i, String.class)));
 							}
 						}catch(Exception e) {
-							
+							System.out.println(e.toString());
 						}
 					}
 				}
