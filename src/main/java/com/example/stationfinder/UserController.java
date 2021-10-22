@@ -64,7 +64,8 @@ public class UserController {
 	}
 	
 	@RequestMapping("/thankyou")
-	public String thankyou2() {
+	public String thankyou2(Model model) {
+		model.addAttribute("user", usr);
 		return "thankyou";
 	}
 	
@@ -129,8 +130,6 @@ public class UserController {
 			else
 				temp.add(new Library("Search Not Found"));
 		}
-		
-		System.out.println(libdata.toString());
 		
 		
 		model.addAttribute("temp", temp);
