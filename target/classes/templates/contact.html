@@ -3,13 +3,41 @@
 		<link rel="stylesheet" href="style.css">
 	</head>
 	
-	<body>
+	<body onload="hide()">
+		<h1>Contact Us</h1>
 		<nav>
 			<ul>
 				<li><a href="index">Home</a></li>
-				<li><a href="#">About Us</a></li>
+				<li><a href="aboutUs">About Us</a></li>
 				<li><a href="#">Contact</a></li>
+				<li id="reg"><a href="register">Register</a></li>
+				<li id="sign"><a href="login">Sign In</a></li>
+				<li id="usr" hidden th:text="${user.username}"></li>
+				<li id="log" hidden><a href="logout">Logout</a></li>
 			</ul>
 		</nav>
+		
+		<script type="text/javascript">
+			function hide(){
+				var y = document.getElementById("usr");
+				
+				document.getElementById("usr").style.display = "none";
+				document.getElementById("log").style.display = "none";
+				
+				if(y.innerHTML.length > 0){
+					document.getElementById("reg").style.display = "none";
+					document.getElementById("sign").style.display = "none";
+					document.getElementById("log").style.display = "block";
+					y.style.display = "block";
+				}
+				else{
+					document.getElementBtId("reg").style.display = "block";
+					document.getElementById("sign").style.display = "block";
+					document.getElementById("usr").style.display = "none";
+					doucment.getElementById("log").style.display = "none";
+				}
+				
+			}
+		</script>
 	</body>
 </html>

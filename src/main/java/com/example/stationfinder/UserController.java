@@ -72,18 +72,25 @@ public class UserController {
 	@RequestMapping(value = "/updated", method = RequestMethod.POST)
 	public String updated(@ModelAttribute ("libdata") Library libdata, Model model) {
 		libService.updateLibrary(libdata);
+		
+		model.addAttribute("user", usr);
 		return "thanks";
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public String delete(@ModelAttribute ("libdata") Library libdata, Model model) {
 		libService.deleteLibrary(libdata);
+		
+		model.addAttribute("user", usr);
+		
 		return "thanks";
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute ("libdata") Library libdata, Model model) {
 		libService.saveLibrary(libdata);
+		
+		model.addAttribute("user", usr);
 		return "thanks";
 	}
 	
@@ -102,13 +109,13 @@ public class UserController {
 				System.out.println(sid);
 				temp.add(new Library(
 						sid,
-						template1.queryForObject("select Library_Name from Libraries where ID = "+sid, String.class),
-						template1.queryForObject("select Branch_Name from Libraries where ID = "+sid, String.class),
-						template1.queryForObject("select Mailing_Address from Libraries where ID = "+sid, String.class),
-						template1.queryForObject("select City from Libraries where ID = "+sid, String.class),
-						template1.queryForObject("select Library_Email_Address from Libraries where ID = "+sid, String.class),
-						template1.queryForObject("select ZIP_Code from Libraries where ID = "+sid, Integer.class),
-						template1.queryForObject("select County from Libraries where ID = "+sid, String.class)));
+						template1.queryForObject("select Library_Name from Missouri where ID = "+sid, String.class),
+						template1.queryForObject("select Branch_Name from Missouri where ID = "+sid, String.class),
+						template1.queryForObject("select Mailing_Address from Missouri where ID = "+sid, String.class),
+						template1.queryForObject("select City from Missouri where ID = "+sid, String.class),
+						template1.queryForObject("select Library_Email_Address from Missouri where ID = "+sid, String.class),
+						template1.queryForObject("select ZIP_Code from Missouri where ID = "+sid, Integer.class),
+						template1.queryForObject("select County from Missouri where ID = "+sid, String.class)));
 			}catch(Exception e){
 				System.out.println("Did not work");
 			}
@@ -164,7 +171,8 @@ public class UserController {
 	}
 	
 	@RequestMapping("/aboutUs")
-	public String aboutUs() {
+	public String aboutUs(Model model) {
+		model.addAttribute("user", usr);
 		return "aboutUs";
 	}
 	
@@ -176,7 +184,8 @@ public class UserController {
 	}
 	
 	@RequestMapping("/contact")
-	public String contact() {
+	public String contact(Model model) {
+		model.addAttribute("user", usr);
 		return "contact";
 	}
 	
