@@ -314,7 +314,7 @@ public class LibService {
 	// Save the Player
 	public void saveLibrary(Library library) {
 		template.update(
-				"insert into Missouri(ID, Library_Name, Branch_Name, Mailing_Address, City, State, ZIP_Code, County, Library_Email_Address) values(?, ?, ?, ?, ?, ?, ?, ?, ?)",
+				"insert into Missouri(ID, Library_Name, Branch_Name, Mailing_Address, City, ZIP_Code, County, Library_Email_Address) values(?, ?, ?, ?, ?, ?, ?, ?)",
 				template.queryForObject("select max(ID) from Missouri", Integer.class), library.getLibName(),
 				library.getBranchName(), library.getAddr(), library.getCity(), null, library.getZip(),
 				library.getCounty(), library.getEmail());
