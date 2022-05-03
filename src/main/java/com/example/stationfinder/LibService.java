@@ -314,9 +314,9 @@ public class LibService {
 	// Save the Player
 	public void saveLibrary(Library library) {
 		template.update(
-				"insert into Missouri(ID, Library_Name, Branch_Name, Mailing_Address, City, ZIP_Code, County, Library_Email_Address) values(?, ?, ?, ?, ?, ?, ?, ?)",
-				template.queryForObject("select max(ID) from Missouri", Integer.class), library.getLibName(),
-				library.getBranchName(), library.getAddr(), library.getCity(), null, library.getZip(),
+				"insert into Missouri(Library_Name, Branch_Name, Mailing_Address, City, ZIP_Code, County, Library_Email_Address) values(?, ?, ?, ?, ?, ?, ?)",
+				library.getLibName(),
+				library.getBranchName(), library.getAddr(), library.getCity(), library.getZip(),
 				library.getCounty(), library.getEmail());
 	}
 
@@ -331,7 +331,7 @@ public class LibService {
 
 			if (library.getBranchName() != null) {
 				template.update("update Missouri set Branch_Name='" + library.getBranchName()
-						+ "' where Mailling_Address = '" + library.getAddr() + "'");
+						+ "' where Mailing_Address = '" + library.getAddr() + "'");
 			}
 
 			if (library.getCity() != null && library.getCity().isEmpty() == false) {
@@ -361,7 +361,7 @@ public class LibService {
 
 	// Remove Library
 	public void deleteLibrary(Library library) {
-		template.update("delete * from Missouri where Mailing_Address = '" + library.getAddr() + "'");
+		template.update("delete from Missouri where Mailing_Address = \'" + library.getAddr() + "\'");
 
 	}
 }
